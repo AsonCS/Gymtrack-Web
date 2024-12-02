@@ -1,0 +1,25 @@
+{
+    "name": "gymtrack-web",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "run-p packages:* apps:*",
+        "apps:backend": "cd apps/backend && npm run dev",
+        "-apps:frontend": "cd apps/frontend && npm run dev",
+        "packages:core": "cd packages/core && npm run dev",
+        "build": "run-s build:packages:* build:apps:*",
+        "-build:apps:frontend": "cd apps/frontend && npm run build",
+        "build:packages:core": "cd packages/core && npm run build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "description": "",
+    "dependencies": {
+        "npm-run-all": "^4.1.5"
+    },
+    "workspaces": [
+        "apps/*",
+        "packages/core"
+    ]
+}

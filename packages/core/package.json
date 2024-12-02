@@ -1,0 +1,15 @@
+{
+    "name": "core",
+    "version": "1.0.0",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "dev": "tsup src/index.ts --dts --watch",
+        "build": "tsup src/index.ts --dts --minify"
+    },
+    "devDependencies": {
+        "tsup": "^8.3.5"
+    }
+}
