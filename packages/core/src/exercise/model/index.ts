@@ -1,5 +1,11 @@
 import { Execution } from './Execution'
-import { Exercise } from './Exercise'
-import { UserExercise } from './UserExercise'
+import { Exercise, ExerciseDetail } from './Exercise'
+import { UserExercise, UserExerciseDetail } from './UserExercise'
 
-export type { Execution, Exercise, UserExercise }
+export type {
+    Execution,
+    Exercise,
+    ExerciseDetail,
+    UserExercise,
+    UserExerciseDetail,
+}
