@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common'
 
-import { Exercise, ExerciseDetail, Response } from 'core'
+import { Exercise, ExerciseDetail, Response, toExercise } from 'core'
 
 import { exercises } from 'src/_mock/exercises'
 
@@ -9,15 +9,7 @@ export class ExercisesController {
     @Get()
     async all(): Promise<Response<Exercise[]>> {
         return {
-            data: exercises().map((e) => {
-                return {
-                    alias: e.alias,
-                    id: e.id,
-                    image: e.image,
-                    title: e.title,
-                    title_pt_br: e.title_pt_br,
-                }
-            }),
+            data: exercises().map((e) => toExercise(e)),
         }
     }
 

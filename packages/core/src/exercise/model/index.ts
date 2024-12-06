@@ -1,11 +1,16 @@
 import { Execution } from './Execution'
-import { Exercise, ExerciseDetail } from './Exercise'
-import { UserExercise, UserExerciseDetail } from './UserExercise'
+import { Exercise, ExerciseDetail, toExercise } from './Exercise'
+import {
+    toExerciseExecution,
+    ExerciseExecution,
+    ExerciseExecutionDetail,
+} from './ExerciseExecution'
 
 export type {
     Execution,
     Exercise,
     ExerciseDetail,
-    UserExercise,
-    UserExerciseDetail,
+    ExerciseExecution,
+    ExerciseExecutionDetail,
 }
+export { toExercise, toExerciseExecution }

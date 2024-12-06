@@ -1,21 +1,10 @@
-import { UserExerciseDetail } from 'core'
-import { exercises } from './exercises'
+import { toExercise, ExerciseExecutionDetail } from 'core'
+import { exercises } from '../exercises'
 
-export function userExercises(): UserExerciseDetail[] {
+export function exerciseExecutions(): ExerciseExecutionDetail[] {
     return [
         {
-            exercise: exercises()
-                .map((e) => {
-                    return {
-                        alias: e.alias,
-                        id: e.id,
-                        image: e.image,
-                        title: e.title,
-                        title_pt_br: e.title_pt_br,
-                    }
-                })
-                .find((e) => e.id === 'id_puxada_alta'),
-            id: 'id_puxada_alta_af',
+            description: null,
             executions: [
                 {
                     id: 'id_0',
@@ -72,22 +61,14 @@ export function userExercises(): UserExerciseDetail[] {
                     weight: 82,
                 },
             ],
+            exercise: exercises()
+                .map((e) => toExercise(e))
+                .find((e) => e.id === 'id_puxada_alta'),
+            id: 'id_puxada_alta_af',
             name: 'puxada alta aberto/fechado',
-            description: null,
         },
         {
-            exercise: exercises()
-                .map((e) => {
-                    return {
-                        alias: e.alias,
-                        id: e.id,
-                        image: e.image,
-                        title: e.title,
-                        title_pt_br: e.title_pt_br,
-                    }
-                })
-                .find((e) => e.id === 'id_puxada_alta'),
-            id: 'id_puxada_alta_n',
+            description: null,
             executions: [
                 {
                     id: 'id_0',
@@ -114,8 +95,11 @@ export function userExercises(): UserExerciseDetail[] {
                     weight: 82,
                 },
             ],
+            exercise: exercises()
+                .map((e) => toExercise(e))
+                .find((e) => e.id === 'id_puxada_alta'),
+            id: 'id_puxada_alta_n',
             name: 'puxada alta neutro',
-            description: null,
         },
     ]
 }
