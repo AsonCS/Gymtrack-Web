@@ -1,5 +1,7 @@
+import { mockExercises } from '@/../mock/exercises'
+
 import { ApiResponse } from '@/data/ApiResponse'
-import { Exercise, ExerciseDetail } from '@/model/exercise'
+import { Exercise, ExerciseDetail, toExercise } from '@/model/exercise'
 
 import { ExerciseApi } from '../api/ExerciseApi'
 
@@ -12,28 +14,14 @@ export function exerciseRemoteBackend(): ExerciseRemote {
     return {
         getExercise: async (idOrAlias) => {
             return {
-                data: {
-                    alias: idOrAlias,
-                    description: 'description',
-                    description_pt_br: 'description_pt_br',
-                    id: idOrAlias,
-                    image: 'image',
-                    title: 'title',
-                    title_pt_br: 'title_pt_br',
-                },
+                data: mockExercises.find(
+                    (e) => e.id === idOrAlias || e.alias === idOrAlias
+                ),
             }
         },
         async getExercises() {
             return {
-                data: [
-                    {
-                        alias: 'idOrAlias',
-                        id: 'idOrAlias',
-                        image: 'image',
-                        title: 'title',
-                        title_pt_br: 'title_pt_br',
-                    },
-                ],
+                data: mockExercises.map((e) => toExercise(e)),
             }
         },
     }

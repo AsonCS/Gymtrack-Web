@@ -8,7 +8,7 @@ export interface ExerciseExecution {
 }
 
 export interface ExerciseExecutionDetail extends ExerciseExecution {
-    description?: string
+    description?: string | null
     executions: Array<Execution>
 }
 
