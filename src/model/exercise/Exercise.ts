@@ -1,4 +1,4 @@
-import { FieldException } from '../exception/FieldException'
+import { FieldException } from '../exception'
 
 export interface Exercise {
     alias: string
@@ -28,13 +28,13 @@ export function checkExerciseDetail(
     detail: Partial<ExerciseDetail>
 ): Partial<ExerciseDetail> {
     if (!detail.alias) {
-        throw new FieldException()
+        throw new FieldException('alias')
     }
     if (!detail.description) {
-        throw new FieldException()
+        throw new FieldException('description')
     }
     if (!detail.title) {
-        throw new FieldException()
+        throw new FieldException('title')
     }
 
     return detail

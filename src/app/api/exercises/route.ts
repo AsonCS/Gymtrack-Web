@@ -13,8 +13,9 @@ export async function POST(req: NextRequest) {
     if (!exercise.id) {
         exercise.id = new Date().getTime().toString(16)
     }
-    require('../../../../mock/exercises').mockExercises.push(
-        exercise as ExerciseDetail
-    )
-    return NextResponse.json(exercise, { status: 200 })
+    const mockExercises: ExerciseDetail[] =
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require('../../../../mock/exercises').mockExercises
+    mockExercises.push(exercise as ExerciseDetail)
+    return NextResponse.json({ data: exercise }, { status: 200 })
 }

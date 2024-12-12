@@ -1,4 +1,4 @@
-export abstract class Exception extends Error {
+export default abstract class Exception extends Error {
     constructor(message: string, status: number) {
         super(message)
         this.message = message

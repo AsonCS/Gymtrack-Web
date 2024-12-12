@@ -1,7 +1,7 @@
-import { Exception } from './Exception'
+import Exception from './Exception'
 
-export class FieldException extends Exception {
-    constructor() {
-        super('Field exceptions', 401)
+export default class FieldException extends Exception {
+    constructor(field: string) {
+        super(`Field '${field}' exception`, 400)
     }
 }
