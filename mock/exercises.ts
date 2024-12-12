@@ -8,7 +8,7 @@ export const mockExercises: ExerciseDetail[] = [
         description_pt_br:
             'a remada sentada é um exercício de força que tem como alvo os músculos das costas, principalmente o músculo grande dorsal, os romboides e os trapézios. também trabalha os bíceps e os antebraços.',
         id: 'id_id_id_id_id_id_id',
-        image: 'default.jpg',
+        image: 'default.jpg?alt=media&token=316c6e77-405b-43d1-aa42-001497a0c522',
         title: 'seated row machine',
         title_pt_br: 'remada sentada',
         video: null,
