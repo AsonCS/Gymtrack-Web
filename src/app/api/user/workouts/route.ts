@@ -1,10 +1,15 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-import { Workout } from '@/model/workout'
+import { workoutRemoteBackend } from '@/data/user'
 
 export async function GET() {
-    const mockWorkouts: Workout[] =
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('../../../../../mock/user/workouts').mockWorkouts
-    return NextResponse.json({ data: mockWorkouts }, { status: 200 })
+    const remote = workoutRemoteBackend()
+    const result = await remote.getWorkouts()
+    return NextResponse.json(result, { status: result.status })
+}
+
+export async function POST(req: NextRequest) {
+    const remote = workoutRemoteBackend()
+    const result = await remote.putWorkout(await req.json())
+    return NextResponse.json(result, { status: result.status })
 }

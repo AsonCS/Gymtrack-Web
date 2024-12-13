@@ -6,5 +6,4 @@ import {
 } from './remote/ExerciseRemote'
 
 export type { ExerciseApi, ExerciseRemote }
-
 export { exerciseApi, exerciseRemoteBackend, exerciseRemoteFrontend }

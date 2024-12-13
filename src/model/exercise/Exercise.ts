@@ -24,7 +24,7 @@ export function toExercise(detail: ExerciseDetail): Exercise {
     }
 }
 
-export function checkExerciseDetail(
+export function toExerciseDetailSource(
     detail: Partial<ExerciseDetail>
 ): Partial<ExerciseDetail> {
     if (!detail.alias) {
@@ -36,6 +36,9 @@ export function checkExerciseDetail(
     if (!detail.title) {
         throw new FieldException('title')
     }
+    delete detail.id
 
-    return detail
+    return {
+        ...detail,
+    }
 }
