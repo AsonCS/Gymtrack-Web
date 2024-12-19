@@ -21,3 +21,10 @@ export function toExerciseExecution(
         name: detail.name,
     }
 }
+
+export function toSimpleView(detail: ExerciseExecutionDetail) {
+    return {
+        id: detail.id,
+        name: detail.name,
+    }
+}

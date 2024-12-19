@@ -6,9 +6,10 @@ import {
     toExerciseDetailSource,
 } from './Exercise'
 import {
-    toExerciseExecution,
     ExerciseExecution,
     ExerciseExecutionDetail,
+    toExerciseExecution,
+    toSimpleView,
 } from './ExerciseExecution'
 
 export type {
@@ -18,4 +19,4 @@ export type {
     ExerciseExecution,
     ExerciseExecutionDetail,
 }
-export { toExercise, toExerciseExecution, toExerciseDetailSource }
+export { toExercise, toExerciseExecution, toExerciseDetailSource, toSimpleView }
