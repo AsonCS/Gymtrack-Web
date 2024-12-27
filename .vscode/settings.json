@@ -1,7 +1,11 @@
 {
     "cSpell.words": [
         "electrónica",
+        "firestore",
+        "Firestore",
         "gymtrack",
-        "Letraset"
+        "Letraset",
+        "tseslint",
+        "turbopack"
     ]
 }

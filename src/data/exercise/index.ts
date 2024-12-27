@@ -1,9 +1,7 @@
-import { exerciseApi, ExerciseApi } from './api/ExerciseApi'
 import {
-    exerciseRemoteBackend,
-    exerciseRemoteFrontend,
-    ExerciseRemote,
-} from './remote/ExerciseRemote'
+    beExerciseRepository,
+    BEExerciseRepository,
+} from './repository/BEExerciseRepository'
 
-export type { ExerciseApi, ExerciseRemote }
-export { exerciseApi, exerciseRemoteBackend, exerciseRemoteFrontend }
+export type { BEExerciseRepository }
+export { beExerciseRepository }

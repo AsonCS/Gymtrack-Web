@@ -24,6 +24,32 @@ export function toExercise(detail: ExerciseDetail): Exercise {
     }
 }
 
+export function toExerciseDetailRemote(detail: Partial<ExerciseDetail>) {
+    const remote: any = {}
+    if (detail.alias) {
+        remote.alias = detail.alias
+    }
+    if (detail.description) {
+        remote.description = detail.description
+    }
+    if (detail.description_pt_br) {
+        remote.description_pt_br = detail.description_pt_br
+    }
+    if (detail.image) {
+        remote.image = detail.image
+    }
+    if (detail.title) {
+        remote.title = detail.title
+    }
+    if (detail.title_pt_br) {
+        remote.title_pt_br = detail.title_pt_br
+    }
+    if (detail.video) {
+        remote.video = detail.video
+    }
+    return remote
+}
+
 export function toExerciseDetailSource(
     detail: Partial<ExerciseDetail>
 ): Partial<ExerciseDetail> {

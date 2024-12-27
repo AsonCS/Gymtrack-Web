@@ -1,5 +1,5 @@
 import { toExercise, ExerciseExecutionDetail } from '@/model/exercise'
-import { mockExercises } from '../exercises'
+import mockExercises from '@/model/exercise/mockExerciseDetail.json'
 
 export const mockExerciseExecutions: ExerciseExecutionDetail[] = [
     {

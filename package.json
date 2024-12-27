@@ -3,12 +3,14 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "yarn run lint && yarn run build && next dev --turbopack",
+        "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
+        "start-dev": "yarn run lint && yarn run build && next start",
         "lint": "next lint"
     },
     "dependencies": {
+        "firebase-admin": "^13.0.2",
         "next": "15.1.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0"

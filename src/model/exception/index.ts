@@ -1,5 +1,6 @@
+import Exception, { toApiResponseError } from './Exception'
+
 import EmptyException from './EmptyException'
-import Exception from './Exception'
 import FieldException from './FieldException'
 import NotFoundException from './NotFoundException'
 import ParamException from './ParamException'
@@ -10,4 +11,5 @@ export {
     FieldException,
     NotFoundException,
     ParamException,
+    toApiResponseError,
 }
