@@ -27,15 +27,17 @@ export interface FirestoreExerciseApi {
 export function firestoreExerciseApi(): FirestoreExerciseApi {
     return {
         async getExercise(alias: string) {
-            const result = await db
+            const doc = await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
-                .where('alias', '==', alias)
-                /*.where(
+                .doc(alias)
+                .get()
+            /*
+                .where(
                     Filter.or(
                         Filter.where('alias', '==', alias),
                         Filter.where('id', '==', alias)
                     )
-                )*/
+                )
                 .get()
 
             if (result.empty) {
@@ -46,12 +48,19 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
 
             const doc = result.docs[0]
             const data = doc.data()
+            */
+            const data = doc.data()
+
+            if (!data) {
+                throw new NotFoundException(
+                    `${HOME}.${ALL_EXERCISES}.${EXERCISES}.${alias} not found`
+                )
+            }
 
             return {
-                alias: data.alias,
+                alias: doc.id,
                 description: data.description,
                 description_pt_br: data.description_pt_br,
-                id: doc.id,
                 image: data.image,
                 title: data.title,
                 title_pt_br: data.title_pt_br,
@@ -70,7 +79,7 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
             collection.forEach((doc) => {
                 const data = doc.data()
                 exercises.push({
-                    alias: data.alias,
+                    alias: doc.id,
                     image: data.image,
                     title: data.title,
                     title_pt_br: data.title_pt_br,
@@ -95,14 +104,12 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
             }
         },
         async postExercise(exercise: Partial<ExerciseDetail>) {
-            const result = await db
+            await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
-                .add(toExerciseDetailRemote(exercise))
+                .doc(exercise.alias!)
+                .set(toExerciseDetailRemote(exercise))
 
-            return {
-                ...exercise,
-                id: result.id,
-            }
+            return exercise
         },
         async putExercise(exercise: Partial<ExerciseDetail>) {
             await db
