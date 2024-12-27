@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { beExerciseRepository } from '@/data/exercise'
-import { toNextResponse } from '@/data/ApiResponse'
+import { toNextResponse } from '@/data/_utils/Wrapper'
 
 export async function GET() {
     const remote = beExerciseRepository()

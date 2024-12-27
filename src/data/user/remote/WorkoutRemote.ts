@@ -1,9 +1,9 @@
-import { ApiResponse } from '@/data/ApiResponse'
+import { Wrapper } from '@/data/_utils/Wrapper'
 import { toWorkoutSource, Workout } from '@/model/workout'
 
 export interface WorkoutRemote {
-    getWorkouts: () => Promise<ApiResponse<Array<Workout>>>
-    putWorkout: (workout: Partial<Workout>) => Promise<ApiResponse<Workout>>
+    getWorkouts: () => Promise<Wrapper<Array<Workout>>>
+    putWorkout: (workout: Partial<Workout>) => Promise<Wrapper<Workout>>
 }
 
 export function workoutRemoteBackend(): WorkoutRemote {

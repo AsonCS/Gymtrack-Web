@@ -1,7 +1,6 @@
-import {
-    beExerciseRepository,
-    BEExerciseRepository,
-} from './repository/BEExerciseRepository'
+import { ExerciseRepository } from './repository/ExerciseRepository'
+import { beExerciseRepository } from './repository/BEExerciseRepository'
+import { feExerciseRepository } from './repository/FEExerciseRepository'
 
-export type { BEExerciseRepository }
-export { beExerciseRepository }
+export type { ExerciseRepository }
+export { beExerciseRepository, feExerciseRepository }

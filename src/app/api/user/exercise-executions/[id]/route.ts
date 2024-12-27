@@ -15,9 +15,7 @@ export async function GET(
             { status: error.status }
         )
     }
-    const mockExerciseExecutions: ExerciseExecutionDetail[] =
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('../../../../../../mock/user/exercises').mockExerciseExecutions
+    const mockExerciseExecutions: ExerciseExecutionDetail[] = []
     const mock = mockExerciseExecutions.find((e) => e.id === id)
     if (!mock) {
         const error = new NotFoundException()

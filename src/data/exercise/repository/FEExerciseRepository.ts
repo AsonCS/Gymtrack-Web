@@ -1,11 +1,11 @@
 import { toApiResponseError } from '@/model/exception'
 
-import { beExerciseRemote } from '../remote/BEExerciseRemote'
+import { feExerciseRemote } from '../remote/FEExerciseRemote'
 import { ExerciseRemote } from '../remote/ExerciseRemote'
 import { ExerciseRepository } from './ExerciseRepository'
 
-export function beExerciseRepository(
-    remote: ExerciseRemote = beExerciseRemote()
+export function feExerciseRepository(
+    remote: ExerciseRemote = feExerciseRemote()
 ): ExerciseRepository {
     return {
         async getExercises() {

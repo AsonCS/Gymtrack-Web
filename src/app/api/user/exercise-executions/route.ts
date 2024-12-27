@@ -21,9 +21,7 @@ export async function POST(req: NextRequest) {
 }
 
 async function response(ids: string[] | undefined) {
-    const mockExerciseExecutions: ExerciseExecutionDetail[] =
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('../../../../../mock/user/exercises').mockExerciseExecutions
+    const mockExerciseExecutions: ExerciseExecutionDetail[] = []
 
     if (!ids || ids.length === 0) {
         const mock = mockExerciseExecutions.map((e) => toSimpleView(e))

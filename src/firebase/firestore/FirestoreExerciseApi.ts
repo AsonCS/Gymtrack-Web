@@ -4,7 +4,7 @@ import {
     toExerciseDetailRemote,
 } from '@/model/exercise'
 
-import { db, Filter } from './'
+import { db } from './'
 import { HomeAllExercisesDoc } from './model/HomeAllExercisesDoc'
 import { NotFoundException } from '@/model/exception'
 
@@ -13,30 +13,34 @@ const EXERCISES = 'exercises'
 const HOME = 'home'
 
 export interface FirestoreExerciseApi {
-    getExercise: (idOrAlias: string) => Promise<ExerciseDetail>
+    getExercise: (alias: string) => Promise<ExerciseDetail>
     getExercises: () => Promise<Array<Exercise>>
     getHomeAllExercisesDoc: () => Promise<HomeAllExercisesDoc>
     postExercise: (
+        exercise: Partial<ExerciseDetail>
+    ) => Promise<Partial<ExerciseDetail>>
+    putExercise: (
         exercise: Partial<ExerciseDetail>
     ) => Promise<Partial<ExerciseDetail>>
 }
 
 export function firestoreExerciseApi(): FirestoreExerciseApi {
     return {
-        async getExercise(idOrAlias: string) {
+        async getExercise(alias: string) {
             const result = await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
-                .where(
+                .where('alias', '==', alias)
+                /*.where(
                     Filter.or(
-                        Filter.where('alias', '==', idOrAlias),
-                        Filter.where('id', '==', idOrAlias)
+                        Filter.where('alias', '==', alias),
+                        Filter.where('id', '==', alias)
                     )
-                )
+                )*/
                 .get()
 
             if (result.empty) {
                 throw new NotFoundException(
-                    `${HOME}.${ALL_EXERCISES}.${EXERCISES}.${idOrAlias} not found`
+                    `${HOME}.${ALL_EXERCISES}.${EXERCISES}.${alias} not found`
                 )
             }
 
@@ -67,7 +71,6 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
                 const data = doc.data()
                 exercises.push({
                     alias: data.alias,
-                    id: doc.id,
                     image: data.image,
                     title: data.title,
                     title_pt_br: data.title_pt_br,
@@ -92,23 +95,22 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
             }
         },
         async postExercise(exercise: Partial<ExerciseDetail>) {
-            if (exercise.id) {
-                await db
-                    .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
-                    .doc(exercise.id)
-                    .update(toExerciseDetailRemote(exercise))
+            const result = await db
+                .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
+                .add(toExerciseDetailRemote(exercise))
 
-                return exercise
-            } else {
-                const result = await db
-                    .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
-                    .add(toExerciseDetailRemote(exercise))
-
-                return {
-                    ...exercise,
-                    id: result.id,
-                }
+            return {
+                ...exercise,
+                id: result.id,
             }
+        },
+        async putExercise(exercise: Partial<ExerciseDetail>) {
+            await db
+                .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
+                .doc(exercise.alias!)
+                .update(toExerciseDetailRemote(exercise))
+
+            return exercise
         },
     }
 }

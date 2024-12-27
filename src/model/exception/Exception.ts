@@ -1,4 +1,4 @@
-import { ApiResponse } from '@/data/ApiResponse'
+import { Wrapper } from '@/data/_utils/Wrapper'
 
 export default class Exception extends Error {
     constructor(message: string, status: number) {
@@ -11,7 +11,7 @@ export default class Exception extends Error {
     status: number
 }
 
-export function toApiResponseError<T>(e: any): ApiResponse<T> {
+export function toApiResponseError<T>(e: any): Wrapper<T> {
     let error: Exception = new Exception(e.message, 500)
     if (e instanceof Exception) {
         error = e

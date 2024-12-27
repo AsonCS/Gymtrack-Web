@@ -2,16 +2,17 @@ import {
     firestoreExerciseApi,
     FirestoreExerciseApi,
 } from '@/firebase/firestore'
+import { FieldException } from '@/model/exception'
 import { toExerciseDetailSource } from '@/model/exercise'
 
 import { ExerciseRemote } from './ExerciseRemote'
 
-export function beExerciseRemoteBackend(
+export function beExerciseRemote(
     api: FirestoreExerciseApi = firestoreExerciseApi()
 ): ExerciseRemote {
     return {
-        async getExercise(idOrAlias) {
-            return api.getExercise(idOrAlias)
+        async getExercise(alias) {
+            return api.getExercise(alias)
         },
         async getExercises() {
             return api.getExercises()
@@ -20,7 +21,10 @@ export function beExerciseRemoteBackend(
             return api.postExercise(toExerciseDetailSource(exercise))
         },
         async putExercise(exercise) {
-            return api.postExercise(exercise)
+            if (!exercise.alias) {
+                throw new FieldException('alias')
+            }
+            return api.putExercise(exercise)
         },
     }
 }

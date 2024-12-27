@@ -1,5 +1,4 @@
 import { toExercise, ExerciseExecutionDetail } from '@/model/exercise'
-import mockExercises from '@/model/exercise/mockExerciseDetail.json'
 
 export const mockExerciseExecutions: ExerciseExecutionDetail[] = [
     {
@@ -60,9 +59,9 @@ export const mockExerciseExecutions: ExerciseExecutionDetail[] = [
                 weight: 82,
             },
         ],
-        exercise: mockExercises
+        exercise: []
             .map((e) => toExercise(e))
-            .find((e) => e.id === 'id_puxada_alta')!,
+            .find((e) => e.alias === 'id_puxada_alta')!,
         id: 'id_puxada_alta_af',
         name: 'puxada alta aberto/fechado',
     },
@@ -94,9 +93,9 @@ export const mockExerciseExecutions: ExerciseExecutionDetail[] = [
                 weight: 82,
             },
         ],
-        exercise: mockExercises
+        exercise: []
             .map((e) => toExercise(e))
-            .find((e) => e.id === 'id_puxada_alta')!,
+            .find((e) => e.alias === 'id_puxada_alta')!,
         id: 'id_puxada_alta_n',
         name: 'puxada alta neutro',
     },
