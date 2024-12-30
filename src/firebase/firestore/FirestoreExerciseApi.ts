@@ -1,18 +1,19 @@
+import { NotFoundException } from '@/model/exception'
 import {
     Exercise,
     ExerciseDetail,
     toExerciseDetailRemote,
 } from '@/model/exercise'
-
-import { db } from './'
 import { HomeAllExercisesDoc } from './model/HomeAllExercisesDoc'
-import { NotFoundException } from '@/model/exception'
+
+import { db } from './Firestore'
 
 const ALL_EXERCISES = 'all_exercises'
 const EXERCISES = 'exercises'
 const HOME = 'home'
 
 export interface FirestoreExerciseApi {
+    deleteExercise: (alias: string) => Promise<boolean>
     getExercise: (alias: string) => Promise<ExerciseDetail>
     getExercises: () => Promise<Array<Exercise>>
     getHomeAllExercisesDoc: () => Promise<HomeAllExercisesDoc>
@@ -26,6 +27,14 @@ export interface FirestoreExerciseApi {
 
 export function firestoreExerciseApi(): FirestoreExerciseApi {
     return {
+        async deleteExercise(alias: string) {
+            await db
+                .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
+                .doc(alias)
+                .delete()
+
+            return true
+        },
         async getExercise(alias: string) {
             const doc = await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
@@ -59,21 +68,13 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
 
             return {
                 alias: doc.id,
-                description: data.description,
-                description_pt_br: data.description_pt_br,
-                image: data.image,
-                title: data.title,
-                title_pt_br: data.title_pt_br,
-                video: data.video,
-            }
+                ...data,
+            } as ExerciseDetail
         },
         async getExercises() {
-            console.log('firestoreExerciseApi')
             const collection = await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
                 .get()
-
-            console.log('collection')
 
             const exercises: Exercise[] = []
             collection.forEach((doc) => {
@@ -82,7 +83,8 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
                     alias: doc.id,
                     image: data.image,
                     title: data.title,
-                    title_pt_br: data.title_pt_br,
+                    titleEs: data.titleEs,
+                    titlePt: data.titlePt,
                 })
             })
 
@@ -100,7 +102,7 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
 
             return {
                 title: data.title,
-                title_pt_br: data.title_pt_br,
+                titlePtBr: data.titlePtBr,
             }
         },
         async postExercise(exercise: Partial<ExerciseDetail>) {

@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { feExerciseRepository } from '@/data/exercise'
+import { beExerciseRepository } from '@/data/backend'
 
 export default async function Home() {
-    const exercises = await feExerciseRepository()
+    const exercises = await beExerciseRepository()
         .getExercises()
         .then((response) => {
             if (response.error) {
@@ -13,8 +13,8 @@ export default async function Home() {
             return response.data ?? []
         })
     return (
-        <main className="flex justify-center">
-            <div className="flex flex-col gap-4 justify-center min-h-screen py-2">
+        <main className="flex justify-center min-h-screen">
+            <div className="flex flex-col gap-4 justify-center py-2">
                 {exercises.map((exercise) => (
                     <Link
                         className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
@@ -34,6 +34,14 @@ export default async function Home() {
                         </span>
                     </Link>
                 ))}
+                <Link
+                    className="border-2 border-zinc-700 flex gap-4 items-center justify-center p-2 rounded-xl"
+                    href={`/exercises/new`}
+                >
+                    <span className="capitalize font-bold text-blue-600 text-xl">
+                        + New Exercise
+                    </span>
+                </Link>
             </div>
         </main>
     )

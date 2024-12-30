@@ -1,6 +1,7 @@
 import { Exercise, ExerciseDetail } from '@/model/exercise'
 
 export interface ExerciseRemote {
+    deleteExercise: (alias: string) => Promise<boolean>
     getExercise: (alias: string) => Promise<ExerciseDetail>
     getExercises: () => Promise<Array<Exercise>>
     postExercise: (

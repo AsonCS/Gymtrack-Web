@@ -1,4 +1,4 @@
-import { toApiResponseError } from '@/model/exception'
+import { toWrapperError } from '@/model/exception'
 
 import { feExerciseRemote } from '../remote/FEExerciseRemote'
 import { ExerciseRemote } from '../remote/ExerciseRemote'
@@ -15,8 +15,8 @@ export function feExerciseRepository(
                     data,
                     status: 200,
                 }
-            } catch (e: any) {
-                return toApiResponseError(e)
+            } catch (e) {
+                return toWrapperError(e)
             }
         },
         async getExercise(alias) {
@@ -26,8 +26,8 @@ export function feExerciseRepository(
                     data,
                     status: 200,
                 }
-            } catch (e: any) {
-                return toApiResponseError(e)
+            } catch (e) {
+                return toWrapperError(e)
             }
         },
         async postExercise(exercise) {
@@ -37,8 +37,8 @@ export function feExerciseRepository(
                     data,
                     status: 200,
                 }
-            } catch (e: any) {
-                return toApiResponseError(e)
+            } catch (e) {
+                return toWrapperError(e)
             }
         },
     }

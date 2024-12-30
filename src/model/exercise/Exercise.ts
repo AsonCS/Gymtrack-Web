@@ -4,12 +4,16 @@ export interface Exercise {
     alias: string
     image?: string | null
     title: string
-    title_pt_br?: string | null
+    titleEs?: string | null
+    titlePt?: string | null
 }
 
 export interface ExerciseDetail extends Exercise {
     description: string
-    description_pt_br?: string | null
+    descriptionEs?: string | null
+    descriptionPt?: string | null
+    imageDefault?: string | null
+    imageSquare?: string | null
     video?: string | null
 }
 
@@ -18,7 +22,6 @@ export function toExercise(detail: ExerciseDetail): Exercise {
         alias: detail.alias,
         image: detail.image,
         title: detail.title,
-        title_pt_br: detail.title_pt_br,
     }
 }
 
@@ -30,17 +33,29 @@ export function toExerciseDetailRemote(detail: Partial<ExerciseDetail>) {
     if (detail.description) {
         remote.description = detail.description
     }
-    if (detail.description_pt_br) {
-        remote.description_pt_br = detail.description_pt_br
+    if (detail.descriptionEs) {
+        remote.descriptionEs = detail.descriptionEs
+    }
+    if (detail.descriptionPt) {
+        remote.descriptionPt = detail.descriptionPt
     }
     if (detail.image) {
         remote.image = detail.image
     }
+    if (detail.imageDefault) {
+        remote.imageDefault = detail.imageDefault
+    }
+    if (detail.imageSquare) {
+        remote.imageSquare = detail.imageSquare
+    }
     if (detail.title) {
         remote.title = detail.title
     }
-    if (detail.title_pt_br) {
-        remote.title_pt_br = detail.title_pt_br
+    if (detail.titleEs) {
+        remote.titleEs = detail.titleEs
+    }
+    if (detail.titlePt) {
+        remote.titlePt = detail.titlePt
     }
     if (detail.video) {
         remote.video = detail.video

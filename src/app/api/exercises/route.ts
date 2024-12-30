@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { beExerciseRepository } from '@/data/exercise'
-import { toNextResponse } from '@/data/_utils/Wrapper'
+import { toNextResponse, Wrapper } from '@/data/_utils/Wrapper'
+import { beExerciseRepository } from '@/data/backend'
+import { ExerciseDetail } from '@/model/exercise'
 
 export async function GET() {
     const remote = beExerciseRepository()
@@ -11,8 +12,15 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     const remote = beExerciseRepository()
-    const [data, init] = toNextResponse(
-        await remote.postExercise(await req.json())
-    )
+
+    console.log(req)
+    let result: Wrapper<Partial<ExerciseDetail>>
+    if (req.headers.get('content-type') === 'application/json') {
+        result = await remote.postExercise(await req.json())
+    } else {
+        result = await remote.postExerciseFormData(await req.formData())
+    }
+
+    const [data, init] = toNextResponse(result)
     return NextResponse.json(data, init)
 }

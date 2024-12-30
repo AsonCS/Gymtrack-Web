@@ -11,6 +11,9 @@ export function beExerciseRemote(
     api: FirestoreExerciseApi = firestoreExerciseApi()
 ): ExerciseRemote {
     return {
+        async deleteExercise(alias) {
+            return api.deleteExercise(alias)
+        },
         async getExercise(alias) {
             return api.getExercise(alias)
         },

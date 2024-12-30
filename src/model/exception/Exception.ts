@@ -11,7 +11,7 @@ export default class Exception extends Error {
     status: number
 }
 
-export function toApiResponseError<T>(e: any): Wrapper<T> {
+export function toWrapperError<T>(e: any): Wrapper<T> {
     let error: Exception = new Exception(e.message, 500)
     if (e instanceof Exception) {
         error = e
