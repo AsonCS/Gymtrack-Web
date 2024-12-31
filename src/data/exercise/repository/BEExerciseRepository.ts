@@ -1,4 +1,8 @@
-import { toWrapperError } from '@/model/exception'
+import {
+    storageRemote,
+    StorageRemote,
+} from '@/data/storage/remote/StorageRemote'
+import { FieldException, toWrapperError } from '@/model/exception'
 import { ExerciseDetail } from '@/model/exercise'
 
 import { beExerciseRemote } from '../remote/BEExerciseRemote'
@@ -6,7 +10,8 @@ import { ExerciseRemote } from '../remote/ExerciseRemote'
 import { ExerciseRepository } from './ExerciseRepository'
 
 export function beExerciseRepository(
-    remote: ExerciseRemote = beExerciseRemote()
+    remote: ExerciseRemote = beExerciseRemote(),
+    storage: StorageRemote = storageRemote()
 ): ExerciseRepository {
     return {
         async deleteExercise(alias) {
@@ -54,7 +59,27 @@ export function beExerciseRepository(
             }
         },
         async postExerciseFormData(formData) {
-            const exercise = getExerciseFromFormData(formData)
+            const { exercise, ...images } = getExerciseFromFormData(formData)
+
+            try {
+                const result = await uploadImages(
+                    exercise.alias,
+                    images,
+                    storage
+                )
+                if (result.defaultPath) {
+                    exercise.imageDefault = result.defaultPath
+                }
+                if (result.squarePath) {
+                    exercise.imageSquare = result.squarePath
+                }
+            } catch (e: any) {
+                console.error(
+                    'beExerciseRepository.postExerciseFormData.uploadImages',
+                    e
+                )
+            }
+
             return this.postExercise(exercise)
         },
         async putExercise(exercise) {
@@ -69,7 +94,30 @@ export function beExerciseRepository(
             }
         },
         async putExerciseFormData(formData, alias) {
-            const exercise = getExerciseFromFormData(formData, alias)
+            const { exercise, ...images } = getExerciseFromFormData(
+                formData,
+                alias
+            )
+
+            try {
+                const result = await uploadImages(
+                    exercise.alias,
+                    images,
+                    storage
+                )
+                if (result.defaultPath) {
+                    exercise.imageDefault = result.defaultPath
+                }
+                if (result.squarePath) {
+                    exercise.imageSquare = result.squarePath
+                }
+            } catch (e: any) {
+                console.error(
+                    'beExerciseRepository.putExerciseFormData.uploadImages',
+                    e
+                )
+            }
+
             return this.putExercise(exercise)
         },
     }
@@ -78,7 +126,11 @@ export function beExerciseRepository(
 function getExerciseFromFormData(
     formData: FormData,
     alias?: string
-): Partial<ExerciseDetail> {
+): {
+    exercise: Partial<ExerciseDetail>
+    imageDefault?: any
+    imageSquare?: any
+} {
     const exercise: Partial<ExerciseDetail> = {
         alias: alias ?? formData.get('alias')?.toString(),
     }
@@ -97,5 +149,40 @@ function getExerciseFromFormData(
     const titlePt = formData.get('titlePt')?.toString()
     if (titlePt) exercise.titlePt = titlePt
 
-    return exercise
+    const imageDefault = formData.get('imageDefault')
+    const imageSquare = formData.get('imageSquare')
+
+    return { exercise, imageDefault, imageSquare }
+}
+
+async function uploadImages(
+    alias: string | undefined,
+    images: {
+        imageDefault?: any
+        imageSquare?: any
+    },
+    storage: StorageRemote
+) {
+    if (!alias) {
+        throw new FieldException('alias')
+    }
+    const result: { defaultPath?: string; squarePath?: string } = {}
+
+    if (images.imageDefault) {
+        result.defaultPath = await storage.uploadFile(
+            alias,
+            images.imageDefault,
+            'default'
+        )
+    }
+
+    if (images.imageSquare) {
+        result.squarePath = await storage.uploadFile(
+            alias,
+            images.imageSquare,
+            'square'
+        )
+    }
+
+    return result
 }

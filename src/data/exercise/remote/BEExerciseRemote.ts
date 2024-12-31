@@ -1,14 +1,11 @@
-import {
-    firestoreExerciseApi,
-    FirestoreExerciseApi,
-} from '@/firebase/firestore'
+import { firestore, FirestoreExerciseApi } from '@/firebase'
 import { FieldException } from '@/model/exception'
 import { toExerciseDetailSource } from '@/model/exercise'
 
 import { ExerciseRemote } from './ExerciseRemote'
 
 export function beExerciseRemote(
-    api: FirestoreExerciseApi = firestoreExerciseApi()
+    api: FirestoreExerciseApi = firestore.firestoreExerciseApi()
 ): ExerciseRemote {
     return {
         async deleteExercise(alias) {

@@ -26,11 +26,13 @@ export default function useFormData(exercise: ExerciseDetail) {
         const formData = new FormData()
 
         formData.append('alias', alias)
-        formData.append('description', description)
-        if (descriptionEs) {
+        if (description !== exercise.description) {
+            formData.append('description', description)
+        }
+        if (descriptionEs !== exercise.descriptionEs && descriptionEs) {
             formData.append('descriptionEs', descriptionEs)
         }
-        if (descriptionPt) {
+        if (descriptionPt !== exercise.descriptionPt && descriptionPt) {
             formData.append('descriptionPt', descriptionPt)
         }
         if (imageDefault) {
@@ -39,11 +41,13 @@ export default function useFormData(exercise: ExerciseDetail) {
         if (imageSquare) {
             formData.append('imageSquare', imageSquare.file)
         }
-        formData.append('title', title)
-        if (titleEs) {
+        if (title !== exercise.title) {
+            formData.append('title', title)
+        }
+        if (titleEs !== exercise.titleEs && titleEs) {
             formData.append('titleEs', titleEs)
         }
-        if (titlePt) {
+        if (titlePt !== exercise.titlePt && titlePt) {
             formData.append('titlePt', titlePt)
         }
 

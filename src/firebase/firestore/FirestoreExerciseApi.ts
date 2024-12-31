@@ -1,3 +1,5 @@
+import { Firestore } from 'firebase-admin/firestore'
+
 import { NotFoundException } from '@/model/exception'
 import {
     Exercise,
@@ -5,8 +7,6 @@ import {
     toExerciseDetailRemote,
 } from '@/model/exercise'
 import { HomeAllExercisesDoc } from './model/HomeAllExercisesDoc'
-
-import { db } from './Firestore'
 
 const ALL_EXERCISES = 'all_exercises'
 const EXERCISES = 'exercises'
@@ -25,7 +25,7 @@ export interface FirestoreExerciseApi {
     ) => Promise<Partial<ExerciseDetail>>
 }
 
-export function firestoreExerciseApi(): FirestoreExerciseApi {
+export function firestoreExerciseApi(db: Firestore): FirestoreExerciseApi {
     return {
         async deleteExercise(alias: string) {
             await db
@@ -81,7 +81,7 @@ export function firestoreExerciseApi(): FirestoreExerciseApi {
                 const data = doc.data()
                 exercises.push({
                     alias: doc.id,
-                    image: data.image,
+                    image: data.squarePath ?? data.imageDefault,
                     title: data.title,
                     titleEs: data.titleEs,
                     titlePt: data.titlePt,
