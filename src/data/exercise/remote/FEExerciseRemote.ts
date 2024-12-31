@@ -5,19 +5,26 @@ export function feExerciseRemote(
     api: ExerciseApi = exerciseApi()
 ): ExerciseRemote {
     return {
-        async getExercise(alias) {
-            return api.getExercise(alias)
+        async deleteExercise(alias) {
+            return api.deleteExercise(alias)
+        },
+        async getExercise() {
+            throw new Error('Not implemented')
         },
         async getExercises() {
-            return api.getExercises()
+            throw new Error('Not implemented')
         },
         async postExercise() {
             throw new Error('Not implemented')
-            //return api.postExercise(toExerciseDetailSource(exercise))
+        },
+        async postExerciseFormData(formData) {
+            return api.postExerciseFormData(formData)
         },
         async putExercise() {
             throw new Error('Not implemented')
-            //return api.postExercise(exercise)
+        },
+        async putExerciseFormData(formData) {
+            return api.putExerciseFormData(formData)
         },
     }
 }

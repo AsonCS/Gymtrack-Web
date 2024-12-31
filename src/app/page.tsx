@@ -2,9 +2,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { beExerciseRepository } from '@/data/backend'
+import { getLang } from '@/model'
 
-export default async function Home() {
-    const exercises = await beExerciseRepository()
+interface Props {
+    params: Promise<unknown>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function Home({ searchParams }: Props) {
+    const lang = getLang((await searchParams).lang)
+
+    const exercises = await beExerciseRepository(lang)
         .getExercises()
         .then((response) => {
             if (response.error) {

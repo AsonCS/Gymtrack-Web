@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { NotFoundException, ParamException } from '@/model/exception'
 import { ExerciseExecutionDetail } from '@/model/exercise'
+import { StatusOk } from '@/data'
 
 export async function GET(
     _: NextRequest,
@@ -24,5 +25,5 @@ export async function GET(
             { status: error.status }
         )
     }
-    return NextResponse.json({ data: mock }, { status: 200 })
+    return NextResponse.json({ data: mock }, { status: StatusOk })
 }

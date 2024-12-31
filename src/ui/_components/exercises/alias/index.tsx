@@ -30,6 +30,11 @@ export function InputText(props: {
             onChange={(e) => props.onChange(e.target.value)}
             readOnly={props.readOnly ?? false}
             required={props.required ?? false}
+            style={{
+                backgroundColor: 'black',
+                borderRadius: '0.375rem',
+                padding: '0.25rem',
+            }}
             type="text"
             value={props.text ?? ''}
         />
@@ -47,6 +52,11 @@ export function Textarea(props: {
             onChange={(e) => props.onChange(e.target.value)}
             required={props.required ?? false}
             rows={10}
+            style={{
+                backgroundColor: 'black',
+                borderRadius: '0.375rem',
+                padding: '0.25rem',
+            }}
             value={props.text ?? ''}
         />
     )

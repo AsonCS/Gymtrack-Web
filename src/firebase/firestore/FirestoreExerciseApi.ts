@@ -1,11 +1,7 @@
 import { Firestore } from 'firebase-admin/firestore'
 
 import { NotFoundException } from '@/model/exception'
-import {
-    Exercise,
-    ExerciseDetail,
-    toExerciseDetailRemote,
-} from '@/model/exercise'
+import { ExerciseRemote, toExerciseRemote } from '@/model/exercise'
 import { HomeAllExercisesDoc } from './model/HomeAllExercisesDoc'
 
 const ALL_EXERCISES = 'all_exercises'
@@ -13,16 +9,12 @@ const EXERCISES = 'exercises'
 const HOME = 'home'
 
 export interface FirestoreExerciseApi {
-    deleteExercise: (alias: string) => Promise<boolean>
-    getExercise: (alias: string) => Promise<ExerciseDetail>
-    getExercises: () => Promise<Array<Exercise>>
+    deleteExercise: (alias: string) => Promise<void>
+    getExercise: (alias: string) => Promise<ExerciseRemote>
+    getExercises: () => Promise<Array<Partial<ExerciseRemote>>>
     getHomeAllExercisesDoc: () => Promise<HomeAllExercisesDoc>
-    postExercise: (
-        exercise: Partial<ExerciseDetail>
-    ) => Promise<Partial<ExerciseDetail>>
-    putExercise: (
-        exercise: Partial<ExerciseDetail>
-    ) => Promise<Partial<ExerciseDetail>>
+    postExercise: (exercise: Partial<ExerciseRemote>) => Promise<void>
+    putExercise: (exercise: Partial<ExerciseRemote>) => Promise<void>
 }
 
 export function firestoreExerciseApi(db: Firestore): FirestoreExerciseApi {
@@ -32,8 +24,6 @@ export function firestoreExerciseApi(db: Firestore): FirestoreExerciseApi {
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
                 .doc(alias)
                 .delete()
-
-            return true
         },
         async getExercise(alias: string) {
             const doc = await db
@@ -69,19 +59,20 @@ export function firestoreExerciseApi(db: Firestore): FirestoreExerciseApi {
             return {
                 alias: doc.id,
                 ...data,
-            } as ExerciseDetail
+            } as ExerciseRemote
         },
         async getExercises() {
             const collection = await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
                 .get()
 
-            const exercises: Exercise[] = []
+            const exercises: Partial<ExerciseRemote>[] = []
             collection.forEach((doc) => {
                 const data = doc.data()
                 exercises.push({
                     alias: doc.id,
-                    image: data.squarePath ?? data.imageDefault,
+                    imageDefault: data.imageDefault,
+                    imageSquare: data.imageSquare,
                     title: data.title,
                     titleEs: data.titleEs,
                     titlePt: data.titlePt,
@@ -105,21 +96,17 @@ export function firestoreExerciseApi(db: Firestore): FirestoreExerciseApi {
                 titlePtBr: data.titlePtBr,
             }
         },
-        async postExercise(exercise: Partial<ExerciseDetail>) {
+        async postExercise(exercise: Partial<ExerciseRemote>) {
             await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
                 .doc(exercise.alias!)
-                .set(toExerciseDetailRemote(exercise))
-
-            return exercise
+                .set(toExerciseRemote(exercise))
         },
-        async putExercise(exercise: Partial<ExerciseDetail>) {
+        async putExercise(exercise: Partial<ExerciseRemote>) {
             await db
                 .collection(`${HOME}/${ALL_EXERCISES}/${EXERCISES}`)
                 .doc(exercise.alias!)
-                .update(toExerciseDetailRemote(exercise))
-
-            return exercise
+                .update(toExerciseRemote(exercise))
         },
     }
 }

@@ -4,6 +4,9 @@ export interface Wrapper<T> {
     status: number
 }
 
+export const StatusOk = 200
+export const StatusInternalServerError = 500
+
 export function toNextResponse(wrapper: Wrapper<unknown>) {
     let error = undefined
     if (wrapper.error) {

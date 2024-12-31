@@ -1,31 +1,56 @@
-import { FieldException } from '../exception'
+import { ImageType, Lang } from '..'
 
 export interface Exercise {
     alias: string
-    image?: string | null
+    image?: string
     title: string
-    titleEs?: string | null
-    titlePt?: string | null
 }
 
 export interface ExerciseDetail extends Exercise {
     description: string
-    descriptionEs?: string | null
-    descriptionPt?: string | null
-    imageDefault?: string | null
-    imageSquare?: string | null
-    video?: string | null
+    video?: string
 }
 
-export function toExercise(detail: ExerciseDetail): Exercise {
+export interface ExerciseRemote {
+    alias: string
+    description: string
+    descriptionEs?: string
+    descriptionPt?: string
+    imageDefault?: string
+    imageSquare?: string
+    title: string
+    titleEs?: string
+    titlePt?: string
+    video?: string
+}
+
+export function fromRemoteToExercise(
+    imageType: ImageType,
+    lang: Lang,
+    remote: Partial<ExerciseRemote>
+): Exercise {
     return {
-        alias: detail.alias,
-        image: detail.image,
-        title: detail.title,
+        alias: remote.alias!,
+        image: fromRemoteToExerciseImage(imageType, remote),
+        title: fromRemoteToExerciseTitle(lang, remote),
     }
 }
 
-export function toExerciseDetailRemote(detail: Partial<ExerciseDetail>) {
+export function fromRemoteToExerciseDetail(
+    imageType: ImageType,
+    lang: Lang,
+    remote: Partial<ExerciseRemote>
+): ExerciseDetail {
+    return {
+        alias: remote.alias!,
+        description: fromRemoteToExerciseDescription(lang, remote),
+        image: fromRemoteToExerciseImage(imageType, remote),
+        title: fromRemoteToExerciseTitle(lang, remote),
+        video: remote.video,
+    }
+}
+
+export function toExerciseRemote(detail: Partial<ExerciseRemote>) {
     const remote: any = {}
     if (detail.alias) {
         remote.alias = detail.alias
@@ -38,9 +63,6 @@ export function toExerciseDetailRemote(detail: Partial<ExerciseDetail>) {
     }
     if (detail.descriptionPt) {
         remote.descriptionPt = detail.descriptionPt
-    }
-    if (detail.image) {
-        remote.image = detail.image
     }
     if (detail.imageDefault) {
         remote.imageDefault = detail.imageDefault
@@ -63,20 +85,42 @@ export function toExerciseDetailRemote(detail: Partial<ExerciseDetail>) {
     return remote
 }
 
-export function toExerciseDetailSource(
-    detail: Partial<ExerciseDetail>
-): Partial<ExerciseDetail> {
-    if (!detail.alias) {
-        throw new FieldException('alias')
+function fromRemoteToExerciseDescription(
+    lang: Lang,
+    remote: Partial<ExerciseRemote>
+): string {
+    switch (lang) {
+        case 'es':
+            return remote.descriptionEs ?? remote.description!
+        case 'pt':
+            return remote.descriptionPt ?? remote.description!
+        default:
+            return remote.description!
     }
-    if (!detail.description) {
-        throw new FieldException('description')
-    }
-    if (!detail.title) {
-        throw new FieldException('title')
-    }
+}
 
-    return {
-        ...detail,
+function fromRemoteToExerciseImage(
+    imageType: ImageType,
+    remote: Partial<ExerciseRemote>
+): string | undefined {
+    switch (imageType) {
+        case 'square':
+            return remote.imageSquare ?? remote.imageDefault
+        default:
+            return remote.imageDefault
+    }
+}
+
+function fromRemoteToExerciseTitle(
+    lang: Lang,
+    remote: Partial<ExerciseRemote>
+): string {
+    switch (lang) {
+        case 'es':
+            return remote.titleEs ?? remote.title!
+        case 'pt':
+            return remote.titlePt ?? remote.title!
+        default:
+            return remote.title!
     }
 }

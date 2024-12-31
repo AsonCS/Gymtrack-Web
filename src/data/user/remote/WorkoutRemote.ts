@@ -1,4 +1,4 @@
-import { Wrapper } from '@/data/_utils/Wrapper'
+import { StatusOk, Wrapper } from '@/data'
 import { toWorkoutSource, Workout } from '@/model/workout'
 
 export interface WorkoutRemote {
@@ -14,7 +14,7 @@ export function workoutRemoteBackend(): WorkoutRemote {
         async getWorkouts() {
             return {
                 data: mockWorkouts,
-                status: 200,
+                status: StatusOk,
             }
         },
         async putWorkout(workout) {
@@ -23,7 +23,7 @@ export function workoutRemoteBackend(): WorkoutRemote {
             mockWorkouts.push(source as Workout)
             return {
                 data: source as Workout,
-                status: 200,
+                status: StatusOk,
             }
         },
     }

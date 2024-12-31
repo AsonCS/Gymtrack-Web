@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { Wrapper } from '@/data/_utils/Wrapper'
-import { ExerciseDetail } from '@/model/exercise'
+import { StatusOk, Wrapper } from '@/data'
+import { feExerciseRepository } from '@/data/frontend'
+import { ExerciseRemote } from '@/model/exercise'
 
 import { File } from './InputImage'
 
-export default function useFormData(exercise: ExerciseDetail) {
+export default function useFormData(exercise: ExerciseRemote) {
     const router = useRouter()
 
     const [alias, setAlias] = useState(exercise.alias)
@@ -21,7 +22,7 @@ export default function useFormData(exercise: ExerciseDetail) {
     const [titleEs, setTitleEs] = useState(exercise.titleEs)
     const [titlePt, setTitlePt] = useState(exercise.titlePt)
 
-    function submit(e: any) {
+    async function submit(e: any) {
         e.preventDefault()
         const formData = new FormData()
 
@@ -51,19 +52,16 @@ export default function useFormData(exercise: ExerciseDetail) {
             formData.append('titlePt', titlePt)
         }
 
-        const path = exercise.alias !== '' ? `/${exercise.alias}` : ''
-        fetch(`/api/exercises${path}`, {
-            body: formData,
-            method: exercise.alias !== '' ? 'PUT' : 'POST',
-        })
-            .then(
-                async (response) => (await response.json()) as Wrapper<unknown>
-            )
-            .then((response) => {
-                if (response.status === 200) {
-                    router.replace('/')
-                }
-            })
+        const repo = feExerciseRepository()
+        let result: Wrapper<void>
+        if (exercise.alias !== '') {
+            result = await repo.putExerciseFormData(formData)
+        } else {
+            result = await repo.postExerciseFormData(formData)
+        }
+        if (result.status === StatusOk) {
+            router.replace('/')
+        }
     }
 
     return {

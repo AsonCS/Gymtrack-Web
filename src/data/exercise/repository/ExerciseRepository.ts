@@ -1,21 +1,18 @@
-import { Wrapper } from '@/data/_utils/Wrapper'
-import { Exercise, ExerciseDetail } from '@/model/exercise'
+import { Wrapper } from '@/data'
+import { Exercise, ExerciseDetail, ExerciseRemote } from '@/model/exercise'
 
 export interface ExerciseRepository {
-    deleteExercise: (alias: string) => Promise<Wrapper<boolean>>
+    deleteExercise: (alias: string) => Promise<Wrapper<void>>
     getExercises: () => Promise<Wrapper<Array<Exercise>>>
-    getExercise: (alias: string) => Promise<Wrapper<ExerciseDetail>>
-    postExercise: (
-        exercise: Partial<ExerciseDetail>
-    ) => Promise<Wrapper<Partial<ExerciseDetail>>>
-    postExerciseFormData: (
-        formData: FormData
-    ) => Promise<Wrapper<Partial<ExerciseDetail>>>
-    putExercise: (
-        exercise: Partial<ExerciseDetail>
-    ) => Promise<Wrapper<Partial<ExerciseDetail>>>
+    getExercise: (
+        alias: string,
+        full: boolean
+    ) => Promise<Wrapper<ExerciseDetail>>
+    postExercise: (exercise: Partial<ExerciseRemote>) => Promise<Wrapper<void>>
+    postExerciseFormData: (formData: FormData) => Promise<Wrapper<void>>
+    putExercise: (exercise: Partial<ExerciseRemote>) => Promise<Wrapper<void>>
     putExerciseFormData: (
         formData: FormData,
         alias?: string
-    ) => Promise<Wrapper<Partial<ExerciseDetail>>>
+    ) => Promise<Wrapper<void>>
 }

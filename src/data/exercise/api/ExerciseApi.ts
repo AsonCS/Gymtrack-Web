@@ -1,32 +1,41 @@
-import { Wrapper } from '@/data/_utils/Wrapper'
-import { Exercise, ExerciseDetail } from '@/model/exercise'
+import { StatusOk, Wrapper } from '@/data'
 
-const EXERCISES = 'exercises'
+const API = '/api'
+const EXERCISES = `${API}/exercises`
 
 export interface ExerciseApi {
-    getExercise: (alias: string) => Promise<ExerciseDetail>
-    getExercises: () => Promise<Array<Exercise>>
+    deleteExercise: (alias: string) => Promise<void>
+    postExerciseFormData: (formData: FormData) => Promise<Partial<void>>
+    putExerciseFormData: (formData: FormData) => Promise<Partial<void>>
 }
 
 export function exerciseApi(): ExerciseApi {
     return {
-        async getExercise(alias) {
-            const result: Wrapper<ExerciseDetail> = await fetch(
-                `${process.env.NEXT_PUBLIC_HOST_API}/${EXERCISES}/${alias}`
-            ).then((res) => res.json())
-            if (!result.data) {
+        async deleteExercise(alias) {
+            const result = await fetch(`${EXERCISES}/${alias}`, {
+                method: 'DELETE',
+            }).then(async (res) => (await res.json()) as Wrapper<void>)
+            if (result.status !== StatusOk) {
                 throw new Error(result.error ?? 'Error')
             }
-            return result.data
         },
-        async getExercises() {
-            const result: Wrapper<Array<Exercise>> = await fetch(
-                `${process.env.NEXT_PUBLIC_HOST_API}/${EXERCISES}`
-            ).then((res) => res.json())
-            if (!result.data) {
+        async postExerciseFormData(formData) {
+            const result = await fetch(`${EXERCISES}`, {
+                body: formData,
+                method: 'POST',
+            }).then(async (res) => (await res.json()) as Wrapper<void>)
+            if (result.status !== StatusOk) {
                 throw new Error(result.error ?? 'Error')
             }
-            return result.data
+        },
+        async putExerciseFormData(formData) {
+            const result = await fetch(`${EXERCISES}`, {
+                body: formData,
+                method: 'PUT',
+            }).then(async (res) => (await res.json()) as Wrapper<void>)
+            if (result.status !== StatusOk) {
+                throw new Error(result.error ?? 'Error')
+            }
         },
     }
 }

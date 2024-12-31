@@ -1,4 +1,5 @@
 import { toWrapperError } from '@/model/exception'
+import { StatusOk } from '@/data'
 
 import { feExerciseRemote } from '../remote/FEExerciseRemote'
 import { ExerciseRemote } from '../remote/ExerciseRemote'
@@ -8,34 +9,43 @@ export function feExerciseRepository(
     remote: ExerciseRemote = feExerciseRemote()
 ): ExerciseRepository {
     return {
+        async deleteExercise(alias) {
+            try {
+                await remote.deleteExercise(alias)
+                return {
+                    status: StatusOk,
+                }
+            } catch (e) {
+                return toWrapperError(e)
+            }
+        },
         async getExercises() {
+            throw new Error('Not implemented')
+        },
+        async getExercise() {
+            throw new Error('Not implemented')
+        },
+        async postExercise() {
+            throw new Error('Not implemented')
+        },
+        async postExerciseFormData(formData) {
             try {
-                const data = await remote.getExercises()
+                await remote.postExerciseFormData(formData)
                 return {
-                    data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e) {
                 return toWrapperError(e)
             }
         },
-        async getExercise(alias) {
-            try {
-                const data = await remote.getExercise(alias)
-                return {
-                    data,
-                    status: 200,
-                }
-            } catch (e) {
-                return toWrapperError(e)
-            }
+        async putExercise() {
+            throw new Error('Not implemented')
         },
-        async postExercise(exercise) {
+        async putExerciseFormData(formData) {
             try {
-                const data = await remote.postExercise(exercise)
+                await remote.putExerciseFormData(formData)
                 return {
-                    data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e) {
                 return toWrapperError(e)

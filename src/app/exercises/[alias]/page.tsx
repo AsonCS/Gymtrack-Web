@@ -1,12 +1,13 @@
 import { Metadata } from 'next'
 
 import { beExerciseRepository } from '@/data/backend'
-import { ExerciseDetail } from '@/model/exercise'
+import { ExerciseRemote } from '@/model/exercise'
 import { Form } from '@/ui/_components/exercises/alias'
 import strings, { capitalize } from '@/ui/_strings'
 
 interface Props {
     params: Promise<{ alias: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export const metadata: Metadata = {
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
     description: null,
 }
 
-export default async function Page(props: Props) {
-    const alias = (await props.params).alias
-    let exercise: ExerciseDetail | undefined = {
+export default async function ExercisesAlias({ params }: Props) {
+    const alias = (await params).alias
+
+    let exercise: ExerciseRemote | undefined = {
         alias: '',
         description: '',
         title: '',
@@ -26,7 +28,7 @@ export default async function Page(props: Props) {
 
     if (alias !== 'new') {
         exercise = await beExerciseRepository()
-            .getExercise(alias)
+            .getExercise(alias, true)
             .then((response) => {
                 if (response.error) {
                     console.error(response.error)

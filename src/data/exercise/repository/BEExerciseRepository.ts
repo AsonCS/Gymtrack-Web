@@ -2,24 +2,26 @@ import {
     storageRemote,
     StorageRemote,
 } from '@/data/storage/remote/StorageRemote'
+import { Lang } from '@/model'
 import { FieldException, toWrapperError } from '@/model/exception'
-import { ExerciseDetail } from '@/model/exercise'
+import { ExerciseRemote as ExerciseRemoteModel } from '@/model/exercise'
+import { StatusOk } from '@/data'
 
 import { beExerciseRemote } from '../remote/BEExerciseRemote'
 import { ExerciseRemote } from '../remote/ExerciseRemote'
 import { ExerciseRepository } from './ExerciseRepository'
 
 export function beExerciseRepository(
-    remote: ExerciseRemote = beExerciseRemote(),
+    lang: Lang = '',
+    remote: ExerciseRemote = beExerciseRemote(lang),
     storage: StorageRemote = storageRemote()
 ): ExerciseRepository {
     return {
         async deleteExercise(alias) {
             try {
-                const data = await remote.deleteExercise(alias)
+                await remote.deleteExercise(alias)
                 return {
-                    data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e: any) {
                 return toWrapperError(e)
@@ -30,18 +32,18 @@ export function beExerciseRepository(
                 const data = await remote.getExercises()
                 return {
                     data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e: any) {
                 return toWrapperError(e)
             }
         },
-        async getExercise(alias) {
+        async getExercise(alias, full) {
             try {
-                const data = await remote.getExercise(alias)
+                const data = await remote.getExercise(alias, full)
                 return {
                     data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e: any) {
                 return toWrapperError(e)
@@ -49,10 +51,9 @@ export function beExerciseRepository(
         },
         async postExercise(exercise) {
             try {
-                const data = await remote.postExercise(exercise)
+                await remote.postExercise(exercise)
                 return {
-                    data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e: any) {
                 return toWrapperError(e)
@@ -84,10 +85,9 @@ export function beExerciseRepository(
         },
         async putExercise(exercise) {
             try {
-                const data = await remote.putExercise(exercise)
+                await remote.putExercise(exercise)
                 return {
-                    data,
-                    status: 200,
+                    status: StatusOk,
                 }
             } catch (e: any) {
                 return toWrapperError(e)
@@ -127,11 +127,11 @@ function getExerciseFromFormData(
     formData: FormData,
     alias?: string
 ): {
-    exercise: Partial<ExerciseDetail>
+    exercise: Partial<ExerciseRemoteModel>
     imageDefault?: any
     imageSquare?: any
 } {
-    const exercise: Partial<ExerciseDetail> = {
+    const exercise: Partial<ExerciseRemoteModel> = {
         alias: alias ?? formData.get('alias')?.toString(),
     }
 

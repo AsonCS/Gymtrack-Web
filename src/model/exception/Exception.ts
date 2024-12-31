@@ -1,4 +1,4 @@
-import { Wrapper } from '@/data/_utils/Wrapper'
+import { StatusInternalServerError, Wrapper } from '@/data'
 
 export default class Exception extends Error {
     constructor(message: string, status: number) {
@@ -12,7 +12,7 @@ export default class Exception extends Error {
 }
 
 export function toWrapperError<T>(e: any): Wrapper<T> {
-    let error: Exception = new Exception(e.message, 500)
+    let error: Exception = new Exception(e.message, StatusInternalServerError)
     if (e instanceof Exception) {
         error = e
     }

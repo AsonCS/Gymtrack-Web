@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { toNextResponse, Wrapper } from '@/data/_utils/Wrapper'
+import { toNextResponse, Wrapper } from '@/data'
 import { beExerciseRepository } from '@/data/backend'
-import { ExerciseDetail } from '@/model/exercise'
+import { getLang } from '@/model'
 
-export async function GET() {
-    const remote = beExerciseRepository()
+export async function GET(req: NextRequest) {
+    const lang = getLang(req.nextUrl.searchParams.get('lang'))
+
+    const remote = beExerciseRepository(lang)
     const [data, init] = toNextResponse(await remote.getExercises())
     return NextResponse.json(data, init)
 }
@@ -14,7 +16,7 @@ export async function POST(req: NextRequest) {
     const remote = beExerciseRepository()
 
     console.log(req)
-    let result: Wrapper<Partial<ExerciseDetail>>
+    let result: Wrapper<void>
     if (req.headers.get('content-type') === 'application/json') {
         result = await remote.postExercise(await req.json())
     } else {

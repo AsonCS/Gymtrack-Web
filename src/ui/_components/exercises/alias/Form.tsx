@@ -2,16 +2,17 @@
 
 import { useRouter } from 'next/navigation'
 
+import { StatusOk } from '@/data'
+import { feExerciseRepository } from '@/data/frontend'
+import { ExerciseRemote } from '@/model/exercise'
 import { ExercisesAlias, toAlias, toTitle } from '@/ui/_strings'
-import { ExerciseDetail } from '@/model/exercise'
 
 import { InputText, Label, Textarea, width } from '.'
 import InputImage from './InputImage'
 import useFormData from './useFormData'
-import { Wrapper } from '@/data/_utils/Wrapper'
 
 export interface Props {
-    exercise: ExerciseDetail
+    exercise: ExerciseRemote
     strings: ExercisesAlias
 }
 
@@ -116,15 +117,10 @@ export function Form({ exercise, strings }: Props) {
                 className="bg-white p-2 rounded-xl text-black"
                 onClick={(e) => {
                     e.preventDefault()
-                    fetch(`/api/exercises/${exercise.alias}`, {
-                        method: 'DELETE',
-                    })
-                        .then(
-                            async (response) =>
-                                (await response.json()) as Wrapper<unknown>
-                        )
-                        .then((response) => {
-                            if (response.status === 200) {
+                    feExerciseRepository()
+                        .deleteExercise(exercise.alias)
+                        .then((result) => {
+                            if (result.status === StatusOk) {
                                 router.replace('/')
                             }
                         })
