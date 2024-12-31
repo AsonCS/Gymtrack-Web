@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { workoutRemoteBackend } from '@/data/user'
+import { workoutRemoteBackend } from '@/data/user/remote/WorkoutRemote'
 
 export async function GET() {
     const remote = workoutRemoteBackend()

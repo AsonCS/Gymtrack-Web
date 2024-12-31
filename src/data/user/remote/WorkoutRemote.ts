@@ -7,9 +7,7 @@ export interface WorkoutRemote {
 }
 
 export function workoutRemoteBackend(): WorkoutRemote {
-    const mockWorkouts: Workout[] =
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('../../../../mock/user/workouts').mockWorkouts
+    const mockWorkouts: Workout[] = []
     return {
         async getWorkouts() {
             return {
