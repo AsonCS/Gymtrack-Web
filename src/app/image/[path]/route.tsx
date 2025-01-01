@@ -3,7 +3,7 @@ import sharp from 'sharp'
 
 import { replaceSlashes } from '@/data'
 
-export const revalidate = 60 * 60 * 24 * 7
+const cacheTime = 60 * 60 * 24 * 7
 
 export async function GET(
     req: NextRequest,
@@ -35,7 +35,7 @@ export async function GET(
 
     return new Response(await image.toBuffer(), {
         headers: {
-            'cache-control': `max-age=${revalidate}`,
+            'cache-control': `max-age=${cacheTime}`,
             'content-type': 'image/*',
         },
         status: 200,
