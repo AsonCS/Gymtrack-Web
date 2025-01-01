@@ -9,7 +9,7 @@ export async function GET(
     req: NextRequest,
     { params }: { params: Promise<{ path: string }> }
 ) {
-    Change here to cache images
+    // Change here to cache images
     // https://nextjs.org/docs/app/api-reference/functions/image-response
     // https://nextjs.org/docs/app/building-your-application/optimizing/metadata#dynamic-image-generation
     // http://localhost:3000/image/all_exercises%2Fseated_row_machine%2Fdefault.jpeg?height=200&width=200&token=49de057e-677a-4013-a1b0-014842b3f36e
