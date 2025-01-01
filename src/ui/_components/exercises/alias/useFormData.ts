@@ -24,6 +24,12 @@ export default function useFormData(exercise: ExerciseRemote) {
 
     async function submit(e: any) {
         e.preventDefault()
+        const password = prompt('Enter password')
+        if (password !== alias) {
+            alert('Invalid password')
+            return
+        }
+
         const formData = new FormData()
 
         formData.append('alias', alias)
