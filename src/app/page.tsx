@@ -44,63 +44,6 @@ export default async function Home({ searchParams }: Props) {
                         </span>
                     </Link>
                 ))}
-                {exercises.map((exercise) => (
-                    <Link
-                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
-                        href={`/exercises/${exercise.alias}`}
-                        key={exercise.alias}
-                    >
-                        <Image
-                            alt="Exercise image"
-                            aria-hidden
-                            className="rounded-xl"
-                            height={128}
-                            src={getImageUrl(exercise.image) ?? '/logo.png'}
-                            width={128}
-                        />
-                        <span className="capitalize font-bold text-xl">
-                            {exercise.title}
-                        </span>
-                    </Link>
-                ))}
-                {exercises.map((exercise) => (
-                    <Link
-                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
-                        href={`/exercises/${exercise.alias}`}
-                        key={exercise.alias}
-                    >
-                        <Image
-                            alt="Exercise image"
-                            aria-hidden
-                            className="rounded-xl"
-                            height={128}
-                            src={getImageUrl(exercise.image) ?? '/logo.png'}
-                            width={128}
-                        />
-                        <span className="capitalize font-bold text-xl">
-                            {exercise.title}
-                        </span>
-                    </Link>
-                ))}
-                {exercises.map((exercise) => (
-                    <Link
-                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
-                        href={`/exercises/${exercise.alias}`}
-                        key={exercise.alias}
-                    >
-                        <Image
-                            alt="Exercise image"
-                            aria-hidden
-                            className="rounded-xl"
-                            height={128}
-                            src={getImageUrl(exercise.image) ?? '/logo.png'}
-                            width={128}
-                        />
-                        <span className="capitalize font-bold text-xl">
-                            {exercise.title}
-                        </span>
-                    </Link>
-                ))}
                 <NewExercise />
             </div>
         </main>
