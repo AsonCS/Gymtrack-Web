@@ -12,7 +12,7 @@ export interface ExerciseRepository {
     postExerciseFormData: (formData: FormData) => Promise<Wrapper<void>>
     putExercise: (exercise: Partial<ExerciseRemote>) => Promise<Wrapper<void>>
     putExerciseFormData: (
-        formData: FormData,
-        alias?: string
+        alias: string,
+        formData: FormData
     ) => Promise<Wrapper<void>>
 }

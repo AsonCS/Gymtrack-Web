@@ -37,7 +37,7 @@ export async function PUT(
 
     const remote = beExerciseRepository()
     const [data, init] = toNextResponse(
-        await remote.putExerciseFormData(formData, alias)
+        await remote.putExerciseFormData(alias, formData)
     )
     return NextResponse.json(data, init)
 }

@@ -4,6 +4,7 @@ import { beExerciseRepository } from '@/data/backend'
 import { ExerciseRemote } from '@/model/exercise'
 import { Form } from '@/ui/_components/exercises/alias'
 import strings, { capitalize } from '@/ui/_strings'
+import { getImageUrl } from '@/data'
 
 interface Props {
     params: Promise<{ alias: string }>
@@ -24,6 +25,7 @@ export default async function ExercisesAlias({ params }: Props) {
         title: '',
     }
     let description = 'Create a new exercise'
+    let image = '/logo.png'
     let title = 'New Exercise'
 
     if (alias !== 'new') {
@@ -37,7 +39,11 @@ export default async function ExercisesAlias({ params }: Props) {
             })
         if (exercise) {
             description = exercise.description
-            title = exercise.title
+            title = capitalize(exercise.title)
+        }
+        if (exercise?.imageDefault) {
+            //image = `/image/${exercise.imageDefault}`
+            image = getImageUrl(exercise.imageDefault) ?? image
         }
     }
 
@@ -48,8 +54,13 @@ export default async function ExercisesAlias({ params }: Props) {
     const str = strings().exercises.alias
     return (
         <>
-            <title>{capitalize(title)}</title>
+            <title>{title}</title>
             <meta name="description" content={description} />
+            <meta property="og:title" content={title} />
+            <meta property="og:image" content={image} />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:image" content={image} />
             <main>
                 <Form exercise={exercise} strings={str} />
             </main>

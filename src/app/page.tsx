@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { beExerciseRepository } from '@/data/backend'
+import { getImageUrl } from '@/data'
 import { getLang } from '@/model'
 
 interface Props {
@@ -22,7 +23,8 @@ export default async function Home({ searchParams }: Props) {
         })
     return (
         <main className="flex justify-center min-h-screen">
-            <div className="flex flex-col gap-4 justify-center py-2">
+            <div className="flex flex-col gap-4 justify-center px-4 py-10 w-full md:w-96">
+                <NewExercise />
                 {exercises.map((exercise) => (
                     <Link
                         className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
@@ -34,7 +36,7 @@ export default async function Home({ searchParams }: Props) {
                             aria-hidden
                             className="rounded-xl"
                             height={128}
-                            src={exercise.image ?? '/logo.png'}
+                            src={getImageUrl(exercise.image) ?? '/logo.png'}
                             width={128}
                         />
                         <span className="capitalize font-bold text-xl">
@@ -42,15 +44,78 @@ export default async function Home({ searchParams }: Props) {
                         </span>
                     </Link>
                 ))}
-                <Link
-                    className="border-2 border-zinc-700 flex gap-4 items-center justify-center p-2 rounded-xl"
-                    href={`/exercises/new`}
-                >
-                    <span className="capitalize font-bold text-blue-600 text-xl">
-                        + New Exercise
-                    </span>
-                </Link>
+                {exercises.map((exercise) => (
+                    <Link
+                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
+                        href={`/exercises/${exercise.alias}`}
+                        key={exercise.alias}
+                    >
+                        <Image
+                            alt="Exercise image"
+                            aria-hidden
+                            className="rounded-xl"
+                            height={128}
+                            src={getImageUrl(exercise.image) ?? '/logo.png'}
+                            width={128}
+                        />
+                        <span className="capitalize font-bold text-xl">
+                            {exercise.title}
+                        </span>
+                    </Link>
+                ))}
+                {exercises.map((exercise) => (
+                    <Link
+                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
+                        href={`/exercises/${exercise.alias}`}
+                        key={exercise.alias}
+                    >
+                        <Image
+                            alt="Exercise image"
+                            aria-hidden
+                            className="rounded-xl"
+                            height={128}
+                            src={getImageUrl(exercise.image) ?? '/logo.png'}
+                            width={128}
+                        />
+                        <span className="capitalize font-bold text-xl">
+                            {exercise.title}
+                        </span>
+                    </Link>
+                ))}
+                {exercises.map((exercise) => (
+                    <Link
+                        className="border-2 border-zinc-700 flex gap-4 items-center justify-start p-2 rounded-xl"
+                        href={`/exercises/${exercise.alias}`}
+                        key={exercise.alias}
+                    >
+                        <Image
+                            alt="Exercise image"
+                            aria-hidden
+                            className="rounded-xl"
+                            height={128}
+                            src={getImageUrl(exercise.image) ?? '/logo.png'}
+                            width={128}
+                        />
+                        <span className="capitalize font-bold text-xl">
+                            {exercise.title}
+                        </span>
+                    </Link>
+                ))}
+                <NewExercise />
             </div>
         </main>
+    )
+}
+
+function NewExercise() {
+    return (
+        <Link
+            className="border-2 border-zinc-700 flex gap-4 items-center justify-center p-2 rounded-xl"
+            href={`/exercises/new`}
+        >
+            <span className="capitalize font-bold text-blue-600 text-xl">
+                + New Exercise
+            </span>
+        </Link>
     )
 }

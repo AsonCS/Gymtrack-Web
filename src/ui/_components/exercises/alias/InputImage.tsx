@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import { ExercisesAlias } from '@/ui/_strings'
 
-import { Label, width } from '.'
+import { Label } from '.'
 import { useState } from 'react'
 
 export interface File {
@@ -21,6 +21,7 @@ export default function InputImage(props: {
     label: string
     onChange: (file: File) => void
     strings: ExercisesAlias
+    width: number
 }) {
     const [src, setSrc] = useState(props.image)
 
@@ -29,10 +30,10 @@ export default function InputImage(props: {
             <Image
                 alt="Exercise image"
                 aria-hidden
-                className="rounded-xl"
+                className="rounded-xl w-full"
                 height={props.height}
                 src={src ?? '/logo.png'}
-                width={width}
+                width={props.width}
             />
             <input
                 accept="image/png, image/jpeg"

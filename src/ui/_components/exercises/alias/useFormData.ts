@@ -55,7 +55,7 @@ export default function useFormData(exercise: ExerciseRemote) {
         const repo = feExerciseRepository()
         let result: Wrapper<void>
         if (exercise.alias !== '') {
-            result = await repo.putExerciseFormData(formData)
+            result = await repo.putExerciseFormData(exercise.alias, formData)
         } else {
             result = await repo.postExerciseFormData(formData)
         }

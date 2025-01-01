@@ -1,14 +1,16 @@
 export * from './Form'
 
-export const width = 256
-
-export function Label(props: { children?: React.ReactNode; label: string }) {
+export function Label(props: {
+    children?: React.ReactNode
+    label: string
+    onClick?: () => void
+}) {
     return (
-        <label
-            className="border-2 border-zinc-700 flex flex-col p-2 rounded-xl text-zinc-400 w-5/6"
-            style={{ width: width }}
-        >
-            {props.label}
+        <label className="border-2 border-zinc-700 flex flex-col gap-2 p-2 rounded-xl text-zinc-400 w-full">
+            <span onClick={props.onClick}>
+                {props.label}
+                {props.onClick ? <span>+/-</span> : <></>}
+            </span>
             {props.children}
         </label>
     )
@@ -51,7 +53,7 @@ export function Textarea(props: {
             className="bg-black border-2 border-white p-1 rounded-md text-white focus:outline-none"
             onChange={(e) => props.onChange(e.target.value)}
             required={props.required ?? false}
-            rows={10}
+            rows={20}
             style={{
                 backgroundColor: 'black',
                 borderRadius: '0.375rem',

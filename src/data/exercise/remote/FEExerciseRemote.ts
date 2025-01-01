@@ -23,8 +23,8 @@ export function feExerciseRemote(
         async putExercise() {
             throw new Error('Not implemented')
         },
-        async putExerciseFormData(formData) {
-            return api.putExerciseFormData(formData)
+        async putExerciseFormData(alias, formData) {
+            return api.putExerciseFormData(alias, formData)
         },
     }
 }

@@ -11,5 +11,8 @@ export interface ExerciseRemote {
     postExercise: (exercise: Partial<_ExerciseRemote>) => Promise<Partial<void>>
     postExerciseFormData: (formData: FormData) => Promise<Partial<void>>
     putExercise: (exercise: Partial<_ExerciseRemote>) => Promise<Partial<void>>
-    putExerciseFormData: (formData: FormData) => Promise<Partial<void>>
+    putExerciseFormData: (
+        alias: string,
+        formData: FormData
+    ) => Promise<Partial<void>>
 }

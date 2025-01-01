@@ -60,28 +60,9 @@ export function beExerciseRepository(
             }
         },
         async postExerciseFormData(formData) {
-            const { exercise, ...images } = getExerciseFromFormData(formData)
-
-            try {
-                const result = await uploadImages(
-                    exercise.alias,
-                    images,
-                    storage
-                )
-                if (result.defaultPath) {
-                    exercise.imageDefault = result.defaultPath
-                }
-                if (result.squarePath) {
-                    exercise.imageSquare = result.squarePath
-                }
-            } catch (e: any) {
-                console.error(
-                    'beExerciseRepository.postExerciseFormData.uploadImages',
-                    e
-                )
-            }
-
-            return this.postExercise(exercise)
+            return this.postExercise(
+                await getExerciseFromFormDataWithImage(formData, storage)
+            )
         },
         async putExercise(exercise) {
             try {
@@ -93,32 +74,10 @@ export function beExerciseRepository(
                 return toWrapperError(e)
             }
         },
-        async putExerciseFormData(formData, alias) {
-            const { exercise, ...images } = getExerciseFromFormData(
-                formData,
-                alias
+        async putExerciseFormData(alias, formData) {
+            return this.putExercise(
+                await getExerciseFromFormDataWithImage(formData, storage, alias)
             )
-
-            try {
-                const result = await uploadImages(
-                    exercise.alias,
-                    images,
-                    storage
-                )
-                if (result.defaultPath) {
-                    exercise.imageDefault = result.defaultPath
-                }
-                if (result.squarePath) {
-                    exercise.imageSquare = result.squarePath
-                }
-            } catch (e: any) {
-                console.error(
-                    'beExerciseRepository.putExerciseFormData.uploadImages',
-                    e
-                )
-            }
-
-            return this.putExercise(exercise)
         },
     }
 }
@@ -153,6 +112,31 @@ function getExerciseFromFormData(
     const imageSquare = formData.get('imageSquare')
 
     return { exercise, imageDefault, imageSquare }
+}
+
+async function getExerciseFromFormDataWithImage(
+    formData: FormData,
+    storage: StorageRemote,
+    alias?: string
+): Promise<Partial<ExerciseRemoteModel>> {
+    const { exercise, ...images } = getExerciseFromFormData(formData, alias)
+
+    try {
+        const result = await uploadImages(exercise.alias, images, storage)
+        if (result.defaultPath) {
+            exercise.imageDefault = result.defaultPath
+        }
+        if (result.squarePath) {
+            exercise.imageSquare = result.squarePath
+        }
+    } catch (e: any) {
+        console.error(
+            'beExerciseRepository.getExerciseFromFormDataWithImage.uploadImages',
+            e
+        )
+    }
+
+    return exercise
 }
 
 async function uploadImages(

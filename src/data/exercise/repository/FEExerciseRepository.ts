@@ -41,9 +41,9 @@ export function feExerciseRepository(
         async putExercise() {
             throw new Error('Not implemented')
         },
-        async putExerciseFormData(formData) {
+        async putExerciseFormData(alias, formData) {
             try {
-                await remote.putExerciseFormData(formData)
+                await remote.putExerciseFormData(alias, formData)
                 return {
                     status: StatusOk,
                 }
