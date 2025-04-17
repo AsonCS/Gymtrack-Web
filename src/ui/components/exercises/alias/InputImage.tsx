@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 
-import { ExercisesAlias } from '@/ui/_strings'
+import { ExercisesAlias } from '@/ui/strings'
 
 import { Label } from '.'
 import { useState } from 'react'

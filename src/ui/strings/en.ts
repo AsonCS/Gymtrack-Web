@@ -2,6 +2,14 @@ import { Strings } from '.'
 
 export default function en(): Strings {
     return {
+        about: {
+            dataExclusion: {
+                labelTitle: 'Data Deletion',
+            },
+            privacyPolicy: {
+                labelTitle: 'Privacy Policy',
+            },
+        },
         exercises: {
             alias: {
                 labelAlias: 'Alias:',

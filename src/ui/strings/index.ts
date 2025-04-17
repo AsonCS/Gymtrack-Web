@@ -1,7 +1,19 @@
 import en from './en'
+import pt from './pt'
 
 export interface Strings {
+    about: About
     exercises: Exercises
+}
+export interface About {
+    dataExclusion: AboutDataExclusion
+    privacyPolicy: AboutPrivacyPolicy
+}
+export interface AboutDataExclusion {
+    labelTitle: string
+}
+export interface AboutPrivacyPolicy {
+    labelTitle: string
 }
 export interface Exercises {
     alias: ExercisesAlias
@@ -20,8 +32,10 @@ export interface ExercisesAlias {
     labelVideo: string
 }
 
-export default function strings(): Strings {
-    return en()
+export default function strings(languageTag: string = ''): Strings {
+    if (languageTag.includes('en')) return en()
+
+    return pt()
 }
 
 export function capitalize(str: string): string {

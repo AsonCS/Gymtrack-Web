@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { getImageUrl, StatusOk } from '@/data'
 import { feExerciseRepository } from '@/data/frontend'
 import { ExerciseRemote } from '@/model/exercise'
-import { ExercisesAlias, toAlias, toTitle } from '@/ui/_strings'
+import { ExercisesAlias, toAlias, toTitle } from '@/ui/strings'
 
 import { InputText, Label, Textarea } from '.'
 import InputImage from './InputImage'

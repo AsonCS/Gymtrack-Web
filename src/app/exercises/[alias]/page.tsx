@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 
 import { beExerciseRepository } from '@/data/backend'
 import { ExerciseRemote } from '@/model/exercise'
-import { Form } from '@/ui/_components/exercises/alias'
-import strings, { capitalize } from '@/ui/_strings'
+import { Form } from '@/ui/components/exercises/alias'
+import strings, { capitalize } from '@/ui/strings'
 import { getImageUrl } from '@/data'
 
 interface Props {
